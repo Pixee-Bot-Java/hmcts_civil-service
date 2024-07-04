@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.civil.controllers.cases;
 
+import io.github.pixee.security.Filenames;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class DocumentController {
         @RequestHeader(HttpHeaders.AUTHORIZATION) String authorisation,
         @RequestParam("file")MultipartFile file) {
 
-        UploadedDocument uploadedDocument = new UploadedDocument(file.getOriginalFilename(), file);
+        UploadedDocument uploadedDocument = new UploadedDocument(Filenames.toSimpleFileName(file.getOriginalFilename()), file);
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(documentManagementService.uploadDocument(authorisation, uploadedDocument));
